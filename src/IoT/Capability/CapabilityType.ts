@@ -1,0 +1,7 @@
+export enum CapabilityType {
+  ON_OFF = 'devices.capabilities.on_off',
+  COLOR_SETTINGS = 'devices.capabilities.color_setting',
+  MODE = 'devices.capabilities.mode',
+  RANGE = 'devices.capabilities.range',
+  TOGGLE = 'devices.capabilities.toggle',
+}

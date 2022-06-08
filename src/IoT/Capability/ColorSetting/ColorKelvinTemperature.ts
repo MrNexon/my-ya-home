@@ -1,0 +1,10 @@
+export enum ColorKelvinTemperature {
+  FIRE_WHITE = 1500,
+  SOFT_WHITE = 2700,
+  WARM_WHITE = 3400,
+  WHITE = 4500,
+  DAYTIME_WHITE = 5600,
+  COLD_WHITE = 6500,
+  MISTY_WHITE = 7500,
+  SKY_WHITE = 9000,
+}
