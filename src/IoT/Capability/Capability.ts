@@ -2,6 +2,11 @@ import { DeviceCapability } from './DeviceCapability';
 import { DeviceCapabilityState } from './DeviceCapabilityState';
 import { DeviceCapabilityChange } from './DeviceCapabilityChange';
 
+export interface CapabilityValue {
+  type: string;
+  value: any;
+}
+
 export abstract class Capability {
   private readonly data: DeviceCapability;
 
@@ -17,7 +22,7 @@ export abstract class Capability {
     return this.data.parameters.instance;
   }
 
-  public abstract get value(): any;
+  public abstract get value(): CapabilityValue;
 
   public abstract getState(): DeviceCapabilityState[];
   public abstract setState(

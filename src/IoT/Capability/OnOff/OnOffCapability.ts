@@ -1,16 +1,23 @@
-import { Capability } from '../Capability';
+import {Capability, CapabilityValue} from '../Capability';
 import { CapabilityType } from '../CapabilityType';
 import { DeviceCapabilityState } from '../DeviceCapabilityState';
 import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
 
 export class OnOffCapability extends Capability {
-  public value: boolean;
+  public _value: boolean;
 
   constructor(initialValue: boolean) {
     super({
       type: CapabilityType.ON_OFF,
     });
-    this.value = initialValue;
+    this._value = initialValue;
+  }
+
+  public get value(): CapabilityValue {
+    return {
+      type: 'any',
+      value: this._value
+    }
   }
 
   public getState(): DeviceCapabilityState[] {
@@ -19,7 +26,7 @@ export class OnOffCapability extends Capability {
         type: CapabilityType.ON_OFF,
         state: {
           instance: 'on',
-          value: this.value,
+          value: this._value,
         },
       },
     ];
@@ -28,7 +35,7 @@ export class OnOffCapability extends Capability {
   public setState(state: DeviceCapabilityState): DeviceCapabilityChange {
     if (state.type != CapabilityType.ON_OFF) return;
 
-    this.value = state.state.value;
+    this._value = state.state.value;
     return {
       type: CapabilityType.ON_OFF,
       state: {

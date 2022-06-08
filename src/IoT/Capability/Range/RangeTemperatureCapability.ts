@@ -1,4 +1,4 @@
-import { Capability } from '../Capability';
+import {Capability, CapabilityValue} from '../Capability';
 import { CapabilityType } from '../CapabilityType';
 import { DeviceCapabilityState } from '../DeviceCapabilityState';
 import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
@@ -24,7 +24,7 @@ export class RangeTemperatureCapability extends Capability {
     this._value = initialValue;
   }
 
-  public get value() {
+  public get value(): CapabilityValue {
     return {
       type: this.instance,
       value: this._value,

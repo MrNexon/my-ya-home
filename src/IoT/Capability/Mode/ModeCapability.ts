@@ -2,7 +2,7 @@ import { CapabilityType } from '../CapabilityType';
 import { DeviceCapabilityState } from '../DeviceCapabilityState';
 import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
 import { ModeInstance } from './ModeInstance';
-import { Capability } from '../Capability';
+import {Capability, CapabilityValue} from '../Capability';
 import { ModeValue } from './ModeValue';
 
 export class ModeCapability extends Capability {
@@ -23,7 +23,7 @@ export class ModeCapability extends Capability {
     this._value = initialValue;
   }
 
-  public get value() {
+  public get value(): CapabilityValue {
     return {
       type: this.instance,
       value: this._value,

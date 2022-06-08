@@ -1,4 +1,4 @@
-import { Capability } from '../Capability';
+import {Capability, CapabilityValue} from '../Capability';
 import { CapabilityType } from '../CapabilityType';
 import { DeviceCapabilityState } from '../DeviceCapabilityState';
 import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
@@ -32,7 +32,7 @@ export class ColorSettingCapability extends Capability {
     this.scene = scene;
   }
 
-  public get value(): any {
+  public get value(): CapabilityValue {
     if (this.lastSet == 'scene')
       return {
         type: 'scene',
