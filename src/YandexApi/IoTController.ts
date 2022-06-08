@@ -70,7 +70,7 @@ export class IoTController {
   public static queryDevices(request: Request, response: Response) {
     const req_id = request.header('X-Request-Id');
     const data = request.body;
-    if (!data || !data.payload) {
+    if (!data || !data.devices) {
       response.end();
       return;
     }
