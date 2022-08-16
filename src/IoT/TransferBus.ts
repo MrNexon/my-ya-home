@@ -12,15 +12,19 @@ export class TransferBus {
       Connection: 'keep-alive',
     });
     response.flushHeaders();
-    response.write('retry: 1000\n\n');
+
+    const pingInterval = setInterval(() => {
+      response.write(':ping');
+    }, 2000);
 
     const sender = (data: DeviceEvent) => {
-      response.write(`data: ${JSON.stringify(data)}\n\n`);
+      response.write(`${JSON.stringify(data)}\n`);
     };
 
     TransferBus.events.addListener('data', sender);
 
     response.on('close', () => {
+      clearInterval(pingInterval);
       TransferBus.events.removeListener('data', sender);
     });
   }
