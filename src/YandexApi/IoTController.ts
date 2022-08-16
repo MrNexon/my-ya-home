@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import { LedStrip } from '../IoT/LedStrip';
 import { Device } from '../IoT/Device/IDevice';
-import { inspect } from 'util';
 import { TransferBus } from '../IoT/TransferBus';
 import { AC } from '../IoT/AC';
-import lodash from "../lodash";
 import {DeviceEvent} from "../IoT/Device/DeviceEvent";
+import {Capability} from "../IoT/Capability/Capability";
 
 const HOME = new Map<string, Device>();
 HOME.set('led_strip', new LedStrip());
@@ -21,16 +20,14 @@ export class IoTController {
   public static syncData() {
     const result: DeviceEvent[] = [];
     HOME.forEach((device) => {
-      device.capabilities.forEach((capability) => {
-        const states = capability.getState()
-        states.forEach((state) => {
-          result.push({
-            id: device.id,
-            sync: true,
-            capability: state.type,
-            value: state.state
-          })
-        });
+      device.capabilities.forEach((capability: Capability) => {
+        const value = capability.value;
+        result.push({
+          id: device.id,
+          sync: true,
+          capability: value.type,
+          value: value.value
+        })
       })
     })
     return result;
