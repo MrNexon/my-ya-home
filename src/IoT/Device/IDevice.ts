@@ -134,6 +134,7 @@ export abstract class Device extends EventEmitter {
   private buildEvent(capability: Capability) {
     this.emit('change', {
       id: this.id,
+      sync: false,
       capability: capability.type,
       value: capability.value,
     });

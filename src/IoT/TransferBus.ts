@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { Request, Response } from 'express';
 import { DeviceEvent } from './Device/DeviceEvent';
+import {IoTController} from "../YandexApi/IoTController";
 
 export class TransferBus {
   public static events = new EventEmitter();
@@ -12,6 +13,11 @@ export class TransferBus {
       Connection: 'keep-alive',
     });
     response.flushHeaders();
+
+    const syncData = IoTController.syncData();
+    syncData.forEach((data) => {
+      response.write(`${JSON.stringify(data)}\n`);
+    })
 
     const pingInterval = setInterval(() => {
       response.write(':ping\n');
