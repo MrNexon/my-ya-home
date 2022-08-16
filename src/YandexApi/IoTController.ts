@@ -21,12 +21,11 @@ export class IoTController {
     const result: DeviceEvent[] = [];
     HOME.forEach((device) => {
       device.capabilities.forEach((capability: Capability) => {
-        const value = capability.value;
         result.push({
           id: device.id,
           sync: true,
-          capability: value.type,
-          value: value.value
+          capability: capability.type,
+          value: capability.value,
         })
       })
     })
