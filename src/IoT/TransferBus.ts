@@ -14,7 +14,7 @@ export class TransferBus {
     response.flushHeaders();
 
     const pingInterval = setInterval(() => {
-      response.write(':ping');
+      response.write(':ping\n');
     }, 2000);
 
     const sender = (data: DeviceEvent) => {

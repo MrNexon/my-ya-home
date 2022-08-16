@@ -25,7 +25,7 @@ function bootstrap() {
   app.get('/events', TransferBus.startStream);
 
   app.listen(port, () => {
-    console.log(`Smart home server stated with port ${port}\nV1.03`);
+    console.log(`Smart home server stated with port ${port}\nV1.04`);
   });
 }
 
