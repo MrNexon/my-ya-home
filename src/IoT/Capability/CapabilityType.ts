@@ -5,3 +5,11 @@ export enum CapabilityType {
   RANGE = 'devices.capabilities.range',
   TOGGLE = 'devices.capabilities.toggle',
 }
+
+export const CapabilityBinType: Record<CapabilityType, number> = {
+  [CapabilityType.ON_OFF]: 0,
+  [CapabilityType.COLOR_SETTINGS]: 1,
+  [CapabilityType.MODE]: 2,
+  [CapabilityType.RANGE]: 3,
+  [CapabilityType.TOGGLE]: 4,
+}

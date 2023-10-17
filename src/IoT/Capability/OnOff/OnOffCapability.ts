@@ -15,7 +15,7 @@ export class OnOffCapability extends Capability {
 
   public get value(): CapabilityValue {
     return {
-      type: 'any',
+      type: 'on',
       value: this._value
     }
   }
@@ -45,5 +45,11 @@ export class OnOffCapability extends Capability {
         },
       },
     };
+  }
+
+  public get byteValue(): Uint8Array {
+    const result = new Uint8Array(1);
+    result[0] = this._value ? 255 : 0;
+    return result;
   }
 }

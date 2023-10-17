@@ -1,8 +1,8 @@
 import {Capability, CapabilityValue} from '../Capability';
-import { CapabilityType } from '../CapabilityType';
-import { DeviceCapabilityState } from '../DeviceCapabilityState';
-import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
-import { ColorScene } from './ColorScene';
+import {CapabilityType} from '../CapabilityType';
+import {DeviceCapabilityState} from '../DeviceCapabilityState';
+import {DeviceCapabilityChange} from '../DeviceCapabilityChange';
+import {ColorScene} from './ColorScene';
 
 export class ColorSettingCapability extends Capability {
   public rgbValue: number;
@@ -85,5 +85,12 @@ export class ColorSettingCapability extends Capability {
         },
       },
     };
+  }
+
+  public get byteValue(): Uint8Array {
+    const r = (this.rgbValue >> 16) & 0xFF;
+    const g = (this.rgbValue >> 8) & 0xFF;
+    const b = this.rgbValue & 0xFF;
+    return new Uint8Array([r, g, b]);
   }
 }

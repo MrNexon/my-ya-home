@@ -1,9 +1,9 @@
 import {Capability, CapabilityValue} from '../Capability';
-import { CapabilityType } from '../CapabilityType';
-import { DeviceCapabilityState } from '../DeviceCapabilityState';
-import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
-import { RangeInstance } from './RangeInstance';
-import { RangeUnit } from './RangeUnit';
+import {CapabilityType} from '../CapabilityType';
+import {DeviceCapabilityState} from '../DeviceCapabilityState';
+import {DeviceCapabilityChange} from '../DeviceCapabilityChange';
+import {RangeInstance} from './RangeInstance';
+import {RangeUnit} from './RangeUnit';
 
 export class RangeBrightnessCapability extends Capability {
   public _value: number;
@@ -56,5 +56,11 @@ export class RangeBrightnessCapability extends Capability {
         },
       },
     };
+  }
+
+  public get byteValue(): Uint8Array {
+    const result = new Uint8Array(1)
+    result[0] = (this._value / 100) * 255;
+    return result;
   }
 }

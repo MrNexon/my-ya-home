@@ -1,9 +1,9 @@
 import { EventEmitter } from 'events';
 import { Request, Response } from 'express';
-import { DeviceEvent } from './Device/DeviceEvent';
 import {IoTController} from "../YandexApi/IoTController";
+import {BytePackage} from "./BytePackage";
 
-export class TransferBus {
+export class SSETransferBus {
   public static events = new EventEmitter();
 
   public static startStream(request: Request, response: Response) {
@@ -14,24 +14,25 @@ export class TransferBus {
     });
     response.flushHeaders();
 
-    const syncData = IoTController.syncData();
+    const syncData = IoTController.syncBufferData();
     syncData.forEach((data) => {
-      response.write(`${JSON.stringify(data)}\n`);
-    })
+      response.write(data.render());
+      console.log(data.render())
+    });
 
     const pingInterval = setInterval(() => {
       response.write(':ping\n');
     }, 2000);
 
-    const sender = (data: DeviceEvent) => {
-      response.write(`${JSON.stringify(data)}\n`);
+    const sender = (data: BytePackage) => {
+      response.write(data.render());
     };
 
-    TransferBus.events.addListener('data', sender);
+    SSETransferBus.events.addListener('data', sender);
 
     response.on('close', () => {
       clearInterval(pingInterval);
-      TransferBus.events.removeListener('data', sender);
+      SSETransferBus.events.removeListener('data', sender);
     });
   }
 }

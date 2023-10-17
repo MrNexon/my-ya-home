@@ -4,6 +4,7 @@ import { DeviceCapabilityChange } from '../DeviceCapabilityChange';
 import { ModeInstance } from './ModeInstance';
 import {Capability, CapabilityValue} from '../Capability';
 import { ModeValue } from './ModeValue';
+import {ModeNumberValue} from "./ModeNumberValue";
 
 export class ModeCapability extends Capability {
   public _value: ModeValue;
@@ -56,5 +57,11 @@ export class ModeCapability extends Capability {
         },
       },
     };
+  }
+
+  public get byteValue(): Uint8Array {
+    const result = new Uint8Array(1)
+    result[0] = ModeNumberValue[this._value];
+    return result;
   }
 }

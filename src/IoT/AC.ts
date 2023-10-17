@@ -12,9 +12,9 @@ export class AC extends Device {
   public readonly fanSpeed: ModeCapability;
   public readonly mode: ModeCapability;
 
-  constructor() {
+  constructor(id: number) {
     super({
-      id: 'ac',
+      id: id,
       name: 'Кондиционер',
       type: DeviceType.AC,
     });
@@ -43,5 +43,15 @@ export class AC extends Device {
       this.fanSpeed,
       this.mode,
     ]);
+  }
+
+  public render(): Buffer {
+    const uintArray = new Uint8Array(4);
+    uintArray.set(this.onOff.byteValue, 0);
+    uintArray.set(this.temperature.byteValue, 1);
+    uintArray.set(this.fanSpeed.byteValue, 2);
+    uintArray.set(this.mode.byteValue, 3);
+
+    return Buffer.from(uintArray);
   }
 }

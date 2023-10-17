@@ -1,19 +1,22 @@
 import { Request, Response } from 'express';
 import { LedStrip } from '../IoT/LedStrip';
 import { Device } from '../IoT/Device/IDevice';
-import { TransferBus } from '../IoT/TransferBus';
+import { SSETransferBus } from '../Transfer/SSETransferBus';
 import { AC } from '../IoT/AC';
 import {DeviceEvent} from "../IoT/Device/DeviceEvent";
 import {Capability} from "../IoT/Capability/Capability";
+import {MQTTTransferBus} from "../Transfer/MQTTTransferBus";
+import {BytePackage} from "../Transfer/BytePackage";
 
-const HOME = new Map<string, Device>();
-HOME.set('led_strip', new LedStrip());
-HOME.set('ac', new AC());
+const HOME = new Map<number, Device>();
+HOME.set(1, new LedStrip(1, 'Свет'));
+HOME.set(2, new LedStrip(2, 'Стол'));
+//HOME.set(3, new AC(3));
 
 export class IoTController {
   public static init() {
     HOME.forEach((device) => {
-      device.on('change', (data) => TransferBus.events.emit('data', data));
+      device.on('change', (deviceId, value) => SSETransferBus.events.emit('data', new BytePackage(deviceId, value)));
     });
   }
 
@@ -22,12 +25,20 @@ export class IoTController {
     HOME.forEach((device) => {
       device.capabilities.forEach((capability: Capability) => {
         result.push({
-          id: device.id,
+          id: `${device.id}`,
           sync: true,
           capability: capability.type,
           value: capability.value,
         })
       })
+    })
+    return result;
+  }
+
+  public static syncBufferData() {
+    const result: BytePackage[] = [];
+    HOME.forEach((device) => {
+      result.push(new BytePackage(device.id, device.render(), true))
     })
     return result;
   }

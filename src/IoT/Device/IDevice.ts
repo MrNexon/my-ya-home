@@ -1,16 +1,14 @@
-import { DeviceType } from './DeviceType';
-import { DeviceCapability } from '../Capability/DeviceCapability';
-import { ActionError } from '../Error/ActionError';
-import { DeviceCapabilityState } from '../Capability/DeviceCapabilityState';
-import { DeviceCapabilityChange } from '../Capability/DeviceCapabilityChange';
-import { Capability } from '../Capability/Capability';
+import {DeviceType} from './DeviceType';
+import {DeviceCapability} from '../Capability/DeviceCapability';
+import {ActionError} from '../Error/ActionError';
+import {DeviceCapabilityState} from '../Capability/DeviceCapabilityState';
+import {DeviceCapabilityChange} from '../Capability/DeviceCapabilityChange';
+import {Capability} from '../Capability/Capability';
 import lodash from '../../lodash';
-import { EventEmitter } from 'events';
-import { DeviceEvent } from './DeviceEvent';
-import { inspect } from 'util';
+import {EventEmitter} from 'events';
 
 export interface DeviceParams {
-  id: string;
+  id: number;
   name: string;
   description?: string;
   room?: string;
@@ -43,13 +41,13 @@ export interface DeviceChange {
 }
 
 export declare interface Device extends EventEmitter {
-  on(event: 'change', listener: (value: DeviceEvent) => void): this;
+  on(event: 'change', listener: (deviceId: number, value: Buffer) => void): this;
 
-  emit(event: 'change', value: DeviceEvent): boolean;
+  emit(event: 'change', deviceId: number, value: Buffer): boolean;
 }
 
 export abstract class Device extends EventEmitter {
-  public id: string;
+  public id: number;
   public name: string;
   public description?: string;
   public room?: string;
@@ -93,10 +91,6 @@ export abstract class Device extends EventEmitter {
     this.capabilities.forEach((value) => {
       state.push(...value.getState());
     });
-    console.log(this.id);
-    console.log(inspect(state, false, 10, true));
-    console.log();
-    console.log();
     return {
       id: this.id,
       capabilities: state,
@@ -118,11 +112,10 @@ export abstract class Device extends EventEmitter {
         continue;
       setResult.push(
         ...changedCapabilityGroup.map((changedCapability) => {
-          const state = changedCapability.setState(capability);
-          if (state) this.buildEvent(changedCapability);
-          return state;
+          return changedCapability.setState(capability);
         })
       );
+      this.onChange();
     }
 
     return {
@@ -131,12 +124,9 @@ export abstract class Device extends EventEmitter {
     };
   }
 
-  private buildEvent(capability: Capability) {
-    this.emit('change', {
-      id: this.id,
-      sync: false,
-      capability: capability.type,
-      value: capability.value,
-    });
+  public abstract render(): Buffer;
+
+  private onChange() {
+    this.emit('change', this.id, this.render());
   }
 }

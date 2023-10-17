@@ -23,6 +23,7 @@ export abstract class Capability {
   }
 
   public abstract get value(): CapabilityValue;
+  public abstract get byteValue(): Uint8Array;
 
   public abstract getState(): DeviceCapabilityState[];
   public abstract setState(

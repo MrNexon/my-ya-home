@@ -2,14 +2,17 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { FakeAuthController } from './YandexApi/FakeAuthController';
 import { IoTController } from './YandexApi/IoTController';
-import { TransferBus } from './IoT/TransferBus';
+import { SSETransferBus } from './Transfer/SSETransferBus';
 
 const app = express();
 const port = 3000;
 
-function bootstrap() {
+const pack = require('../package.json');
+
+async function bootstrap() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
+  //MQTTTransferBus.init();
   IoTController.init();
 
   app.get('/auth', FakeAuthController.fakeAuth);
@@ -22,11 +25,12 @@ function bootstrap() {
   app.post('/v1.0/user/devices/query', IoTController.queryDevices);
   app.post('/v1.0/user/devices/action', IoTController.actionDevices);
 
-  app.get('/events', TransferBus.startStream);
+  app.get('/events', SSETransferBus.startStream);
 
   app.listen(port, () => {
-    console.log(`Smart home server stated with port ${port}\nV1.05`);
+    console.log(`Smart home server stated with port ${port}\nVersion: ${pack.version}`);
   });
 }
+
 
 bootstrap();

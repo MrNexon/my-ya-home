@@ -57,4 +57,10 @@ export class RangeTemperatureCapability extends Capability {
       },
     };
   }
+
+  public get byteValue(): Uint8Array {
+    const result = new Uint8Array(1)
+    result[0] = this._value;
+    return result;
+  }
 }
