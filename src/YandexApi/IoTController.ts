@@ -8,15 +8,15 @@ import {Capability} from "../IoT/Capability/Capability";
 import {MQTTTransferBus} from "../Transfer/MQTTTransferBus";
 import {BytePackage} from "../Transfer/BytePackage";
 
-const HOME = new Map<number, Device>();
-HOME.set(1, new LedStrip('1', 'Свет'));
-HOME.set(2, new LedStrip('2', 'Стол'));
+const HOME = new Map<string, Device>();
+HOME.set('led1', new LedStrip('led1', 'Свет'));
+HOME.set('led2', new LedStrip('led2', 'Стол'));
 //HOME.set(3, new AC(3));
 
 export class IoTController {
   public static init() {
     HOME.forEach((device) => {
-      device.on('change', (deviceId, value) => SSETransferBus.events.emit('data', new BytePackage(deviceId, value)));
+      device.on('change', (deviceId, value) => MQTTTransferBus.events.emit('data', deviceId, value));
     });
   }
 

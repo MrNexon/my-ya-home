@@ -1,8 +1,5 @@
 import * as MQTT from "mqtt";
-import {DeviceEvent} from "../IoT/Device/DeviceEvent";
 import {EventEmitter} from "events";
-import {inspect} from "util";
-import {Device} from "../IoT/Device/IDevice";
 
 export class MQTTTransferBus {
   private static client: MQTT.MqttClient;
@@ -11,8 +8,8 @@ export class MQTTTransferBus {
   public static init() {
     console.log('Connecting to MQTT broker');
     this.client = MQTT.connect({
-      port: 4997,
-      host: 'localhost',
+      port: 1883,
+      host: 'broker',
     });
     this.client.on('connect', (params) => {
       console.log(`[MQTT] Client connected`);

@@ -12,9 +12,18 @@ services:
       - "traefik.http.routers.smarthome.rule=Host(`iot.mtdl.ru`)"
       - "traefik.http.routers.smarthome.entrypoints=secure"
       - "traefik.http.routers.smarthome.tls.certresolver=ssl"
-
-      - "traefik.http.routers.smarthome_events.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/events`)"
-      - "traefik.http.routers.smarthome_events.entrypoints=web"
+  broker:
+    image: eclipse-mosquitto
+    expose:
+      - 1883
+    networks:
+      - proxy
+    volumes:
+      - ./mqtt.conf:/mosquitto/config/mosquitto.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smarthome_broker.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/events`)"
+      - "traefik.http.routers.smarthome_broker.entrypoints=web"
 networks:
   proxy:
     external: true
