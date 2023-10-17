@@ -22,7 +22,7 @@ services:
       - smarthome_broker:/mosquitto/config
     labels:
       - "traefik.enable=true"
-      - "traefik.tcp.routers.mqtt.rule=HostSNI(`iot.mtdl.ru`) && PathPrefix(`/broker`)"
+      - "traefik.tcp.routers.mqtt.rule=HostSNI(`iot.mtdl.ru`)"
       - "traefik.tcp.routers.mqtt.entrypoints=web"
 networks:
   proxy:
