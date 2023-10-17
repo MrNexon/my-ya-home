@@ -11,7 +11,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:14-alpine
+FROM --platform=linux/amd64 node:14-alpine
 
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
