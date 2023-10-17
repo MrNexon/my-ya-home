@@ -8,7 +8,7 @@ import lodash from '../../lodash';
 import {EventEmitter} from 'events';
 
 export interface DeviceParams {
-  id: number;
+  id: string;
   name: string;
   description?: string;
   room?: string;
@@ -47,7 +47,7 @@ export declare interface Device extends EventEmitter {
 }
 
 export abstract class Device extends EventEmitter {
-  public id: number;
+  public id: string;
   public name: string;
   public description?: string;
   public room?: string;
@@ -127,6 +127,6 @@ export abstract class Device extends EventEmitter {
   public abstract render(): Buffer;
 
   private onChange() {
-    this.emit('change', this.id, this.render());
+    this.emit('change', parseInt(this.id), this.render());
   }
 }

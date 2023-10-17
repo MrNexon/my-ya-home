@@ -9,8 +9,8 @@ import {MQTTTransferBus} from "../Transfer/MQTTTransferBus";
 import {BytePackage} from "../Transfer/BytePackage";
 
 const HOME = new Map<number, Device>();
-HOME.set(1, new LedStrip(1, 'Свет'));
-HOME.set(2, new LedStrip(2, 'Стол'));
+HOME.set(1, new LedStrip('1', 'Свет'));
+HOME.set(2, new LedStrip('2', 'Стол'));
 //HOME.set(3, new AC(3));
 
 export class IoTController {
@@ -38,7 +38,7 @@ export class IoTController {
   public static syncBufferData() {
     const result: BytePackage[] = [];
     HOME.forEach((device) => {
-      result.push(new BytePackage(device.id, device.render(), true))
+      result.push(new BytePackage(parseInt(device.id), device.render(), true))
     })
     return result;
   }

@@ -12,7 +12,7 @@ export class AC extends Device {
   public readonly fanSpeed: ModeCapability;
   public readonly mode: ModeCapability;
 
-  constructor(id: number) {
+  constructor(id: string) {
     super({
       id: id,
       name: 'Кондиционер',

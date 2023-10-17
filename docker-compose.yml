@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   app:
-    image: "registry.sostoya.com/smart_home:0.0.1"
+    image: "registry.sostoya.com/smart_home:0.0.2"
     expose:
       - 3000
     networks:

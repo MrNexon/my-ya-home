@@ -9,7 +9,7 @@ export class LedStrip extends Device {
   public readonly color: ColorSettingCapability;
   public readonly brightness: RangeBrightnessCapability;
 
-  constructor(id: number, name: string) {
+  constructor(id: string, name: string) {
     super({
       id: id,
       name: name,
