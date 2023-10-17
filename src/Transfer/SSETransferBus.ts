@@ -17,7 +17,6 @@ export class SSETransferBus {
     const syncData = IoTController.syncBufferData();
     syncData.forEach((data) => {
       response.write(data.render());
-      console.log(data.render())
     });
 
     const pingInterval = setInterval(() => {
