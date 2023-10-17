@@ -9,8 +9,8 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.registry.rule=Host(`iot.mtdl.ru`)"
-      - "traefik.http.routers.registry.entrypoints=web"
+      - "traefik.http.routers.smarthome.rule=Host(`iot.mtdl.ru`)"
+      - "traefik.http.routers.smarthome.entrypoints=web"
 networks:
   proxy:
     external: true
