@@ -19,7 +19,7 @@ services:
     networks:
       - proxy
     volumes:
-      - smarthome_broker/mqtt.conf:/mosquitto/config/mosquitto.conf
+      - smarthome_broker:/mosquitto/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.smarthome_broker.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/events`)"
