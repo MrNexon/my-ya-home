@@ -13,8 +13,10 @@ services:
       - "traefik.http.routers.smarthome.entrypoints=secure"
       - "traefik.http.routers.smarthome.tls.certresolver=ssl"
 
-      - "traefik.http.routers.smarthome_events.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/events`)"
-      - "traefik.http.routers.smarthome_events.entrypoints=web"
+      - "traefik.http.routers.smarthome_gateway.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/gateway`)"
+      - "traefik.http.routers.smarthome_gateway.entrypoints=web"
+      - "traefik.http.routers.smarthome_gateway.service=smarthome_gateway"
+      - "traefik.http.services.smarthome_gateway.loadbalancer.server.port=9000"
 networks:
   proxy:
     external: true

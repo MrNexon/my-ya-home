@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import { FakeAuthController } from './YandexApi/FakeAuthController';
 import { IoTController } from './YandexApi/IoTController';
 import { SSETransferBus } from './Transfer/SSETransferBus';
-import {MQTTTransferBus} from "./Transfer/MQTTTransferBus";
+import {WSTransferBus} from "./Transfer/WSTransferBus";
 
 const app = express();
 const port = 3000;
@@ -13,7 +13,7 @@ const pack = require('../package.json');
 async function bootstrap() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  MQTTTransferBus.init();
+  WSTransferBus.init();
   IoTController.init();
 
   app.get('/auth', FakeAuthController.fakeAuth);

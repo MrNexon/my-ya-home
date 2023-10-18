@@ -7,6 +7,7 @@ import {DeviceEvent} from "../IoT/Device/DeviceEvent";
 import {Capability} from "../IoT/Capability/Capability";
 import {MQTTTransferBus} from "../Transfer/MQTTTransferBus";
 import {BytePackage} from "../Transfer/BytePackage";
+import {WSTransferBus} from "../Transfer/WSTransferBus";
 
 const HOME = new Map<string, Device>();
 HOME.set('led1', new LedStrip('led1', 'Свет'));
@@ -16,7 +17,7 @@ HOME.set('led2', new LedStrip('led2', 'Стол'));
 export class IoTController {
   public static init() {
     HOME.forEach((device) => {
-      device.on('change', (deviceId, value) => MQTTTransferBus.events.emit('data', deviceId, value));
+      device.on('change', (deviceId, value) => WSTransferBus.events.emit('data', deviceId, value));
     });
   }
 

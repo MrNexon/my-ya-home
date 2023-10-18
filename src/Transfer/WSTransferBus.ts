@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import { DeviceEvent } from '../IoT/Device/DeviceEvent';
 import {RawData, WebSocket, WebSocketServer} from "ws";
 
 export class WSTransferBus {
@@ -15,7 +14,7 @@ export class WSTransferBus {
       ws.on('message', (data) => WSTransferBus.onMessage(ws, data));
     });
 
-    WSTransferBus.events.addListener('data', (data) => this.sender(data));
+    WSTransferBus.events.addListener('data', (deviceId: string, data: Buffer) => this.sender(deviceId, data));
   }
 
   private static onMessage(connection: WebSocket, data: RawData): void {
@@ -23,11 +22,10 @@ export class WSTransferBus {
     this.clients.set(message, connection);
   }
 
-  private static sender(deviceEvent: DeviceEvent): void {
-    const id = deviceEvent.id;
-    const client = this.clients.get(id);
+  private static sender(deviceId: string, data: Buffer): void {
+    const client = this.clients.get(deviceId);
     if (!client) return;
 
-    deviceEvent.capability
+    client.send(data);
   }
 }
