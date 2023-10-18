@@ -5,6 +5,7 @@ services:
     image: "registry.sostoya.com/smart_home:0.0.4"
     expose:
       - 3000
+      - 9000
     networks:
       - proxy
     labels:
@@ -12,6 +13,8 @@ services:
       - "traefik.http.routers.smarthome.rule=Host(`iot.mtdl.ru`)"
       - "traefik.http.routers.smarthome.entrypoints=secure"
       - "traefik.http.routers.smarthome.tls.certresolver=ssl"
+      - "traefik.http.routers.smarthome.service=smarthome"
+      - "traefik.http.services.smarthome.loadbalancer.server.port=3000"
 
       - "traefik.http.routers.smarthome_gateway.rule=Host(`iot.mtdl.ru`) && PathPrefix(`/gateway`)"
       - "traefik.http.routers.smarthome_gateway.entrypoints=web"
